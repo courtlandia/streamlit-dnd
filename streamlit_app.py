@@ -30,19 +30,19 @@ with st.form("character_form"):
     strength = st.number_input("Strength", min_value=8, max_value=15, value=8)
     remaining_points -= point_buy_cost[strength]
 
-    dexterity = st.number_input("Dexterity", min_value=8, max_value=15, value=8)
+    dexterity = st.number_input("Dexterity", min_value=8, max_value=15, value=8, key="dexterity_input")
     remaining_points -= point_buy_cost[dexterity]
 
-    constitution = st.number_input("Constitution", min_value=8, max_value=15, value=8)
+    constitution = st.number_input("Constitution", min_value=8, max_value=15, value=8, key="constitution_input")
     remaining_points -= point_buy_cost[constitution]
 
-    intelligence = st.number_input("Intelligence", min_value=8, max_value=15, value=8)
+    intelligence = st.number_input("Intelligence", min_value=8, max_value=15, value=8, key="intelligence_input")
     remaining_points -= point_buy_cost[intelligence]
 
-    wisdom = st.number_input("Wisdom", min_value=8, max_value=15, value=8)
+    wisdom = st.number_input("Wisdom", min_value=8, max_value=15, value=8, key="wisdom_input")
     remaining_points -= point_buy_cost[wisdom]
 
-    charisma = st.number_input("Charisma", min_value=8, max_value=15, value=8)
+    charisma = st.number_input("Charisma", min_value=8, max_value=15, value=8, key="charisma_input")
     remaining_points -= point_buy_cost[charisma]
 
     st.info(f"Remaining Points: {remaining_points}")
@@ -76,7 +76,4 @@ if submit_button:
     st.write("Attributes:")
     st.write("Strength:", strength)
     st.write("Dexterity:", dexterity)
-    st.write("Constitution:", constitution)
-    st.write("Intelligence:", intelligence)
-    st.write("Wisdom:", wisdom)
-    st.write("Charisma:", charisma)
+    st.write("
