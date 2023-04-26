@@ -76,4 +76,7 @@ if submit_button:
     st.write("Attributes:")
     st.write("Strength:", strength)
     st.write("Dexterity:", dexterity)
-    st.write("
+    st.write("Constitution:", constitution)
+    st.write("Intelligence:", intelligence)
+    st.write("Wisdom:", wisdom)
+    st.write("Charisma:", charisma)
