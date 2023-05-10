@@ -120,4 +120,4 @@ def create_character(prompt, attributes, classes, backgrounds):
     background = response.choices[0].text.strip()
 
     # Generate character backstory from GPT-3
-    backstory_prompt = "Write a backstory for the character
+    backstory_prompt = "Write a backstory for the character"
