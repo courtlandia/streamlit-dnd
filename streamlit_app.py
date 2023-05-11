@@ -33,32 +33,27 @@ backstory = st.text_input("Backstory", max_chars=2048)
 # Create a button to generate the character
 if st.button("Create Character"):
     # Generate the D&D character using OpenAI's GPT-3 API
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=(f"Create a level 1 D&D character with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
+                f"{backstory_prompt} "),
+        max_tokens=2048,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
+
+    # Extract the character information from the API response
+    st.write(response)
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-002",
-            prompt=(f"Create a level 1 D&D character with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
-                    f"{backstory_prompt} "),
-            max_tokens=2048,
-            n=1,
-            stop=None,
-            temperature=0.5,
-        )
+        character_info = response.choices[0].text.strip()
+        character = json.loads(character_info)
 
-        # Debugging prints
-        print(response)
-        print(response.choices[0].text.strip())
+        # Display the character information to the user
+        st.subheader("Your Character:")
+        st.write(f"Name: {character['name']}")
+        st.write(f"Race: {character['race']}")
+    except json.JSONDecodeError as e:
+        st.error(f"Error generating character: {e}")
+        st.write(response) # print the response to the page for debugging purposes
 
-        try:
-            # Extract the character information from the API response
-            character_info = response.choices[0].text.strip()
-            if not character_info:
-                raise ValueError("Character information not found in OpenAI response.")
-
-            character = json.loads(character_info)
-
-            # Display the character information to the user
-            st.subheader("Your Character:")
-            st.write(f"Name: {character['name']}")
-            st.write(f"Race: {character['race']}")
-        except Exception as e:
-            st.error(f"Error generating character: {e}")    
