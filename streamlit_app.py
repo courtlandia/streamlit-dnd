@@ -7,7 +7,7 @@ st.set_page_config(page_title="D&D Character Generator", layout="wide")
 openai.api_key = st.sidebar.text_input("Enter OpenAI API Key", type="password")
 # Allow users to select the temperature parameter
 temperature = st.sidebar.selectbox(
-    'Select the creativity level for the character backstory (closer to 0 = predictable, closer to 1 = creative:',
+    'Select the creativity level for your backstory (closer to 0 = predictable, closer to 1 = creative):',
     [0.2, 0.4, 0.6, 0.8, 1.0],
     index=2
 )
@@ -18,16 +18,20 @@ st.subheader("Too lazy to write a backstory for your D&D character? This app is 
 st.write("In the sidebar, enter your OpenAI API key, select how creative you want your backstory to be, fill in your character information and click 'Create character'. Then add any additional description of your character below, and click 'Create backstory'")
 
 # Create form inputs for character details n the sidebar
+race_options = ["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Elf", "Half-Orc", "Warforged", "Goblin", "Hobgoblin", "Orc", "Bugbear"]
+class_options = ["Artificer", "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"]
+sex_options = ["Male", "Female", "Non-binary"]
+setting_options = ["Eberron", "Forgotten Realms", "Ravenloft", "Dark Sun", "Spelljammer"]
 background_options = ['Acolyte', 'Criminal', 'Guild Artisan', 'Hermit', 'Noble', 'Outlander', 'Sage', 'Soldier']
 alignment_options = ['Lawful Good', 'Neutral Good', 'Chaotic Good', 'Lawful Neutral', 'True Neutral', 'Chaotic Neutral', 'Lawful Evil', 'Neutral Evil', 'Chaotic Evil']
 
 with st.sidebar.form(key='my_form'):
     st.header("Character details")
     name = st.text_input("Name", max_chars=50)
-    race = st.selectbox("Race", ["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Elf", "Half-Orc", "Warforged", "Goblin", "Hobgoblin", "Orc", "Bugbear"])
-    character_class = st.selectbox("Class", ["Artificer", "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"])
-    sex = st.selectbox("Sex", ["Male", "Female", "Other"])
-    campaign_setting = st.selectbox("Campaign Setting", ["Eberron", "Forgotten Realms", "Ravenloft", "Dark Sun", "Spelljammer"])
+    race = st.selectbox("Race", race_options)
+    character_class = st.selectbox("Class", class_options)
+    sex = st.selectbox("Sex", sex_options)
+    campaign_setting = st.selectbox("Campaign Setting", setting_options)
     background = st.selectbox('Select the character\'s background:', background_options)
     alignment = st.selectbox('Select the character\'s alignment:', alignment_options)
     
@@ -46,7 +50,7 @@ with st.sidebar.form(key='my_form'):
     st.write("Remaining points:", remaining_points)
 
     # When the user is done, they press the "Submit" button to process their inputs
-    submit_button = st.form_submit_button(label='Create Character')
+    submit_button = st.form_submit_button(label='Create character')
 
 # Create a text input for the character backstory
 st.header("Character Description")
@@ -54,7 +58,7 @@ description_prompt = "Describe your character. What's their personality like? Wh
 description = st.text_area("Description", max_chars=2048)
 
 # Create a button to generate the character
-if st.button("Create Backstory"):
+if st.button("Create backstory"):
     # Generate the D&D character using OpenAI's GPT-3 API
     response = openai.Completion.create(
         engine="text-davinci-002",
@@ -69,5 +73,5 @@ if st.button("Create Backstory"):
     character_info = response.choices[0].text.strip()
 
     # Display the character backstory to the user
-    st.subheader("Your Character's Backstory:")
+    st.subheader("Your character's backstory:")
     st.write(character_info)
