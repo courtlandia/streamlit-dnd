@@ -1,4 +1,3 @@
-import os
 import streamlit as st
 import openai
 import json
@@ -6,7 +5,7 @@ import json
 st.set_page_config(page_title="D&D Character Generator", layout="wide")
 
 # OpenAI API authentication
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = st.sidebar.text_input("Enter OpenAI API Key", type="password")
 
 # Create a title and subheader
 st.title("D&D Character Generator")
