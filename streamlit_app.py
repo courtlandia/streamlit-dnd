@@ -5,6 +5,12 @@ st.set_page_config(page_title="D&D Character Generator", layout="wide")
 
 # OpenAI API authentication
 openai.api_key = st.sidebar.text_input("Enter OpenAI API Key", type="password")
+# Allow users to select the temperature parameter
+temperature = st.sidebar.selectbox(
+    'Select the creativity level for the character backstory:',
+    [0.2, 0.4, 0.6, 0.8, 1.0],
+    index=2
+)
 
 # Create a title and subheader
 st.title("D&D Character Generator")
@@ -43,9 +49,9 @@ if st.button("Create Character"):
         engine="text-davinci-002",
         prompt=(f"A D&D player wants to create a new character in the {campaign_setting} setting. "
                 f"The character is a {sex} {race} {character_class} with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
-                f"The player described the character as follows: '{description}'. Based on this information, please generate a compelling backstory for this character that is 5 paragraphs long and does not include any murder."),
+                f"The player described the character as follows: '{description}'. Based on this information, please generate a compelling backstory for this character that is 5 paragraphs long and does not include any death."),
         max_tokens=2048,
-        temperature=0.6,
+        temperature=temperature,
     )
 
     # Extract the character information from the API response
