@@ -43,17 +43,24 @@ if st.button("Create Character"):
         stop=None,
         temperature=0.5,
     )
-   
-    # Extract the character information from the API response
-    st.write(response)
-    character_info = response.choices[0].text.strip()
-    character = json.loads(character_info)
 
-    # Display the character information to the user
-    st.subheader("Your Character:")
-    st.write(f"Name: {character['name']}")
-    st.write(f"Race: {character['race']}")
-    st.write(f"Class: {character['class']}")
-    st.write(f"Background: {character['background']}")
-    st.write(f"Stats: {character['stats']}")
-    st.write(f"Backstory: {character['backstory']}") 
+    # Debugging statement to check response
+    st.write(response)
+
+    # Extract the character information from the API response
+    try:
+        character_info = response.choices[0].text.strip()
+        character = json.loads(character_info)
+
+        # Debugging statement to check character info
+        st.write(character_info)
+
+        # Display the character information to the user
+        st.subheader("Your Character:")
+        st.write(f"Name: {character['name']}")
+        st.write(f"Race: {character['race']}")
+        st.write(f"Class: {character['class']}")
+        st.write(f"Background: {character['background']}")
+        st.write(f"Stats: {character['stats']}")
+        st.write(f"Backstory: {character['backstory']}")
+    except Exception
