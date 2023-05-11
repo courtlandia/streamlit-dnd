@@ -75,7 +75,3 @@ if st.button("Create backstory"):
     # Display the character backstory to the user
     st.subheader("Your character's backstory:")
     st.write(character_info)
-    
-    # Create a button to trigger balloons
-    if st.button("Create Backstory"):
-        st.balloons()
