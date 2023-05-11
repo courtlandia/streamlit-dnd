@@ -45,12 +45,12 @@ if st.button("Create Character"):
         prompt=(f"A D&D player wants to create a new character in the {campaign_setting} setting. "
                 f"The character is a {sex} {race} {character_class} with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}"
                 f"The player described the character as follows: '{description}'. Based on this information, please generate a compelling backstory for this character."),
-                max_tokens=500,
-                temperature=0.5,
-            )
+        max_tokens=500,
+        temperature=0.5,
+    )
 
-            # Extract the character information from the API response
-            st.write(response)
-            character_info = response.choices[0].text.strip()
-            st.subheader("Your Character's Backstory:")
-            st.write(character_info)
+    # Extract the character information from the API response
+    st.write(response)
+    character_info = response.choices[0].text.strip()
+    st.subheader("Your Character's Backstory:")
+    st.write(character_info)
