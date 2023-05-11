@@ -17,7 +17,6 @@ st.title("D&D Character Background Generator")
 st.subheader("Too lazy to write a backstory for your D&D character? This app is for you!")
 
 # Create number inputs for each attribute
-name = st.text_area("Name", max_chars=50)
 st.header("Attributes")
 strength = st.number_input("Strength", min_value=8, max_value=15, value=8, key="strength_input")
 dexterity = st.number_input("Dexterity", min_value=8, max_value=15, value=8, key="dexterity_input")
@@ -36,6 +35,7 @@ background_options = ['Acolyte', 'Criminal', 'Guild Artisan', 'Hermit', 'Noble',
 alignment_options = ['Lawful Good', 'Neutral Good', 'Chaotic Good', 'Lawful Neutral', 'True Neutral', 'Chaotic Neutral', 'Lawful Evil', 'Neutral Evil', 'Chaotic Evil']
 
 st.sidebar.markdown("## Character details")
+name = st.sidebar.text_input("Name", max_chars=50)
 race = st.sidebar.selectbox("Race", ["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Elf", "Half-Orc", "Warforged", "Goblin", "Hobgoblin", "Orc", "Bugbear"])
 character_class = st.sidebar.selectbox("Class", ["Artificer", "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"])
 sex = st.sidebar.selectbox("Sex", ["Male", "Female", "Other"])
@@ -53,9 +53,9 @@ if st.button("Create Character"):
     # Generate the D&D character using OpenAI's GPT-3 API
     response = openai.Completion.create(
         engine="text-davinci-002",
-        prompt=(f"A D&D player wants to create a new character named {XXXXXX} in the {campaign_setting} setting with a {background.lower()} background and {alignment.lower()} alignment. "
+        prompt=(f"A D&D player wants to create a new character named {name} in the {campaign_setting} setting with a {background.lower()} background and {alignment.lower()} alignment. "
                 f"The character is a {sex} {race} {character_class} with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
-                f"The player described the character as follows: '{description}'. Based on this information, please generate a compelling backstory for this character that is 5 paragraphs long and does not include any death."),
+                f"The player described the character as follows: '{description}'. Based on this information, please generate a compelling backstory for this character that is 10 paragraphs long and does not include any killing."),
         max_tokens=2048,
         temperature=temperature,
     )
