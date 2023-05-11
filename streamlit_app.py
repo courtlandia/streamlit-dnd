@@ -26,9 +26,9 @@ remaining_points = 27 - point_buy_cost[strength] - point_buy_cost[dexterity] - p
 st.write("Remaining points:", remaining_points)
 
 # Create a text input for the character backstory
-st.header("Backstory")
-backstory_prompt = "Write a backstory for the character. What events led them to where they are now? What are their motivations? (maximum 2048 characters)"
-backstory = st.text_area("Backstory", max_chars=2048)
+st.header("Character Description")
+description_prompt = "Describe your character. What's their personality like? What kind of race and background do you imagine for them?"
+description = st.text_area("Description", max_chars=2048)
 
 # Create a button to generate the character
 if st.button("Create Character"):
@@ -36,7 +36,7 @@ if st.button("Create Character"):
     response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=(f"Create a level 1 D&D character with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
-                f"{backstory}"),
+                f"{description}"),
         max_tokens=2048,
         n=1,
         stop=None,
@@ -45,14 +45,5 @@ if st.button("Create Character"):
 
     # Extract the character information from the API response
     character_info = response.choices[0].text.strip()
-    
-    try:
-        character = json.loads(character_info)
-        # Display the character information to the user
-        st.subheader("Your Character:")
-        st.write(f"Name: {character['name']}")
-        st.write(f"Race: {character['race']}")
-    except json.JSONDecodeError as e:
-        st.error(f"Error parsing character information: {e}")
-    except KeyError as e:
-        st.error(f"Error: Key {e} not found in character information.")
+    st.subheader("Your Character:")
+    st.write(character_info)
