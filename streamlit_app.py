@@ -25,9 +25,16 @@ point_buy_cost = {8: 0, 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 7, 15: 9}
 remaining_points = 27 - point_buy_cost[strength] - point_buy_cost[dexterity] - point_buy_cost[constitution] - point_buy_cost[intelligence] - point_buy_cost[wisdom] - point_buy_cost[charisma]
 st.write("Remaining points:", remaining_points)
 
+# Create select box inputs for race, class, sex, and campaign setting
+st.header("Character Details")
+race = st.selectbox("Race", ["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Elf", "Half-Orc", "Tiefling", "Dragonborn"])
+character_class = st.selectbox("Class", ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"])
+sex = st.selectbox("Sex", ["Male", "Female", "Other"])
+campaign_setting = st.selectbox("Campaign Setting", ["Eberron", "Forgotten Realms", "Ravenloft", "Dark Sun", "Spelljammer"])
+
 # Create a text input for the character backstory
 st.header("Character Description")
-description_prompt = "Describe your character. What's their personality like? What kind of race and background do you imagine for them?"
+description_prompt = "Describe your character. What's their personality like? What kind of background do you imagine for them?"
 description = st.text_area("Description", max_chars=2048)
 
 # Create a button to generate the character
@@ -35,17 +42,15 @@ if st.button("Create Character"):
     # Generate the D&D character using OpenAI's GPT-3 API
     response = openai.Completion.create(
         engine="text-davinci-002",
-        prompt=(f"A D&D player wants to create a new character in the eberron campaign setting. "
-                f"The character has the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
-                f"The player describes the character as: '{description}'. "
-                f"Please generate a detailed backstory roughly 6 paragraphs in length. The character's attributes should influence the backstory, for example a character with low charisma might be more likely to be a recluse. It should detail the character's origin, motivation, personal conflicts they've overcome in the past, how their personality has developed over time, their relationship with a significant person in their life, quirks, traits, and if they harbor any secrets."),
-        max_tokens=2048,
-        n=1,
-        stop=None,
-        temperature=0.5,
-    )
+        prompt=(f"A D&D player wants to create a new character in the {campaign_setting} setting. "
+                f"The character is a {sex} {race} {character_class} with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}"
+                f"The player described the character as follows: '{description}'. Based on this information, please generate a compelling backstory for this character."),
+                max_tokens=500,
+                temperature=0.5,
+            )
 
-    # Extract the character information from the API response
-    character_info = response.choices[0].text.strip()
-    st.subheader("Your Character:")
-    st.write(character_info)
+            # Extract the character information from the API response
+            st.write(response)
+            character_info = response.choices[0].text.strip()
+            st.subheader("Your Character's Backstory:")
+            st.write(character_info)
