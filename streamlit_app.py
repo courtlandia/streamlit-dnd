@@ -1,123 +1,58 @@
-import openai
 import streamlit as st
+import openai
+import json
+import requests
 
-# Set OpenAI API key
-st.sidebar.subheader("OpenAI API Key")
-openai.api_key = st.sidebar.text_input("API Key", type="password")
+st.set_page_config(page_title="D&D Character Generator", layout="wide")
 
-# Define GPT-3 parameters
-model_engine = "davinci"
-temperature = 0.7
-max_tokens = 256
+# OpenAI API authentication
+openai.api_key = st.sidebar.text_input("Enter OpenAI API Key", type="password")
 
-# Define prompt for GPT-3
-prompt = "Create a D&D character with the following characteristics:"
+# Create a title and subheader
+st.title("D&D Character Generator")
+st.subheader("Create your own D&D character using natural language!")
 
-# Define attributes for D&D character
-attributes = [
-    "strength",
-    "dexterity",
-    "constitution",
-    "intelligence",
-    "wisdom",
-    "charisma"
-]
+# Create number inputs for each attribute
+st.header("Attributes")
+strength = st.number_input("Strength", min_value=8, max_value=15, value=8, key="strength_input")
+dexterity = st.number_input("Dexterity", min_value=8, max_value=15, value=8, key="dexterity_input")
+constitution = st.number_input("Constitution", min_value=8, max_value=15, value=8, key="constitution_input")
+intelligence = st.number_input("Intelligence", min_value=8, max_value=15, value=8, key="intelligence_input")
+wisdom = st.number_input("Wisdom", min_value=8, max_value=15, value=8, key="wisdom_input")
+charisma = st.number_input("Charisma", min_value=8, max_value=15, value=8, key="charisma_input")
 
-# Define point buy cost for each attribute score
-point_buy_cost = {
-    8: 0,
-    9: 1,
-    10: 2,
-    11: 3,
-    12: 4,
-    13: 5,
-    14: 7,
-    15: 9
-}
+# Calculate remaining points
+point_buy_cost = {8: 0, 9: 1, 10: 2, 11: 3, 12: 4, 13: 5, 14: 7, 15: 9}
+remaining_points = 27 - point_buy_cost[strength] - point_buy_cost[dexterity] - point_buy_cost[constitution] - point_buy_cost[intelligence] - point_buy_cost[wisdom] - point_buy_cost[charisma]
+st.write("Remaining points:", remaining_points)
 
-# Define character classes for D&D
-classes = [
-    "Barbarian",
-    "Bard",
-    "Cleric",
-    "Druid",
-    "Fighter",
-    "Monk",
-    "Paladin",
-    "Ranger",
-    "Rogue",
-    "Sorcerer",
-    "Warlock",
-    "Wizard"
-]
+# Create a text input for the character backstory
+st.header("Backstory")
+backstory_prompt = "Write a backstory for the character. What events led them to where they are now? What are their motivations? (maximum 2048 characters)"
+backstory = st.text_input("Backstory", max_chars=2048)
 
-# Define character backgrounds for D&D
-backgrounds = [
-    "Acolyte",
-    "Charlatan",
-    "Criminal",
-    "Entertainer",
-    "Folk Hero",
-    "Guild Artisan",
-    "Hermit",
-    "Noble",
-    "Outlander",
-    "Sage",
-    "Sailor",
-    "Soldier",
-    "Urchin"
-]
-
-# Define function to calculate remaining point buy points
-def calculate_remaining_points(attribute_scores):
-    remaining_points = 27
-    for score in attribute_scores.values():
-        remaining_points -= point_buy_cost[score]
-    return remaining_points
-
-# Define function to create a D&D character
-def create_character(prompt, attributes, classes, backgrounds):
-    # Get attribute scores from GPT-3
-    attribute_scores = {}
-    for attribute in attributes:
-        attribute_prompt = f"What is the {attribute} score?"
-        response = openai.Completion.create(
-            engine=model_engine,
-            prompt=prompt + attribute_prompt,
-            temperature=temperature,
-            max_tokens=max_tokens
-        )
-        score = response.choices[0].text.strip()
-        attribute_scores[attribute] = int(score)
-
-    # Calculate remaining point buy points
-    remaining_points = calculate_remaining_points(attribute_scores)
-
-    # Get character class from GPT-3
-    class_prompt = "What is the character's class?"
+# Create a button to generate the character
+if st.button("Create Character"):
+    # Generate the D&D character using OpenAI's GPT-3 API
     response = openai.Completion.create(
-        engine=model_engine,
-        prompt=prompt + class_prompt,
-        temperature=temperature,
-        max_tokens=max_tokens,
-        presence_penalty=0.5,
-        frequency_penalty=0.5,
-        stop=classes
+        engine="text-davinci-002",
+        prompt=(f"Create a level 1 D&D character with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
+                f"{backstory_prompt} "),
+        max_tokens=2048,
+        n=1,
+        stop=None,
+        temperature=0.5,
     )
-    character_class = response.choices[0].text.strip()
 
-    # Get character background from GPT-3
-    background_prompt = "What is the character's background?"
-    response = openai.Completion.create(
-        engine=model_engine,
-        prompt=prompt + background_prompt,
-        temperature=temperature,
-        max_tokens=max_tokens,
-        presence_penalty=0.5,
-        frequency_penalty=0.5,
-        stop=backgrounds
-    )
-    background = response.choices[0].text.strip()
+    # Extract the character information from the API response
+    character_info = response.choices[0].text
+    character = json.loads(character_info)
 
-    # Generate character backstory from GPT-3
-    backstory_prompt = "Write a backstory for the character"
+    # Display the character information to the user
+    st.subheader("Your Character:")
+    st.write(f"Name: {character['name']}")
+    st.write(f"Race: {character['race']}")
+    st.write(f"Class: {character['class']}")
+    st.write(f"Background: {character['background']}")
+    st.write(f"Stats: {character['stats']}")
+    st.write(f"Backstory: {character['backstory']}") 
