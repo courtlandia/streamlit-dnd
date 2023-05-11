@@ -34,30 +34,25 @@ backstory = st.text_input("Backstory", max_chars=2048)
 # Create a button to generate the character
 if st.button("Create Character"):
     # Generate the D&D character using OpenAI's GPT-3 API
-    try:
-        response = openai.Completion.create(
-            engine="text-davinci-002",
-            prompt=(f"Create a level 1 D&D character with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
-                    f"{backstory_prompt} "),
-            max_tokens=2048,
-            n=1,
-            stop=None,
-            temperature=0.5,
-        )
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=(f"Create a level 1 D&D character with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
+                f"{backstory_prompt} "),
+        max_tokens=2048,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
 
-        # Extract the character information from the API response
-        st.write(response)
+    # Extract the character information from the API response
+    st.write(response)
+    try:
         character_info = response.choices[0].text.strip()
         character = json.loads(character_info)
+    except json.decoder.JSONDecodeError:
+        st.write("Error generating character:", response.choices[0].text)
 
-        # Display the character information to the user
+    # Display the character information to the user
+    if 'character' in locals():
         st.subheader("Your Character:")
         st.write(f"Name: {character['name']}")
-        st.write(f"Race: {character['race']}")
-        st.write(f"Class: {character['class']}")
-        st.write(f"Background: {character['background']}")
-        st.write(f"Stats: {character['stats']}")
-        st.write(f"Backstory: {character['backstory']}") 
-
-    except Exception as e:
-        st.write(f"Error generating character: {e}")
