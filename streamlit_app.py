@@ -35,14 +35,14 @@ background_options = ['Acolyte', 'Criminal', 'Guild Artisan', 'Hermit', 'Noble',
 alignment_options = ['Lawful Good', 'Neutral Good', 'Chaotic Good', 'Lawful Neutral', 'True Neutral', 'Chaotic Neutral', 'Lawful Evil', 'Neutral Evil', 'Chaotic Evil']
 
 with st.sidebar.form(key='my_form'):
-    st.sidebar.markdown("## Character details")
-    name = st.sidebar.text_input("Name", max_chars=50)
-    race = st.sidebar.selectbox("Race", ["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Elf", "Half-Orc", "Warforged", "Goblin", "Hobgoblin", "Orc", "Bugbear"])
-    character_class = st.sidebar.selectbox("Class", ["Artificer", "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"])
-    sex = st.sidebar.selectbox("Sex", ["Male", "Female", "Other"])
-    campaign_setting = st.sidebar.selectbox("Campaign Setting", ["Eberron", "Forgotten Realms", "Ravenloft", "Dark Sun", "Spelljammer"])
-    background = st.sidebar.selectbox('Select the character\'s background:', background_options)
-    alignment = st.sidebar.selectbox('Select the character\'s alignment:', alignment_options)
+    st.write("Character details")
+    name = st.text_input("Name", max_chars=50)
+    race = st.selectbox("Race", ["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Elf", "Half-Orc", "Warforged", "Goblin", "Hobgoblin", "Orc", "Bugbear"])
+    character_class = st.selectbox("Class", ["Artificer", "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"])
+    sex = st.selectbox("Sex", ["Male", "Female", "Other"])
+    campaign_setting = st.selectbox("Campaign Setting", ["Eberron", "Forgotten Realms", "Ravenloft", "Dark Sun", "Spelljammer"])
+    background = st.selectbox('Select the character\'s background:', background_options)
+    alignment = st.selectbox('Select the character\'s alignment:', alignment_options)
     
     # When the user is done, they press the "Submit" button to process their inputs
     submit_button = st.form_submit_button(label='Create Character')
