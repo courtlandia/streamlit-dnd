@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import openai
 import json
@@ -5,7 +6,7 @@ import json
 st.set_page_config(page_title="D&D Character Generator", layout="wide")
 
 # OpenAI API authentication
-openai.api_key = st.sidebar.text_input("Enter OpenAI API Key", type="password")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Create a title and subheader
 st.title("D&D Character Generator")
@@ -28,7 +29,7 @@ st.write("Remaining points:", remaining_points)
 # Create a text input for the character backstory
 st.header("Backstory")
 backstory_prompt = "Write a backstory for the character. What events led them to where they are now? What are their motivations? (maximum 2048 characters)"
-backstory = st.text_input("Backstory", max_chars=2048)
+backstory = st.text_area("Backstory", max_chars=2048)
 
 # Create a button to generate the character
 if st.button("Create Character"):
@@ -36,7 +37,7 @@ if st.button("Create Character"):
     response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=(f"Create a level 1 D&D character with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
-                f"{backstory_prompt} "),
+                f"{backstory}"),
         max_tokens=2048,
         n=1,
         stop=None,
@@ -44,9 +45,8 @@ if st.button("Create Character"):
     )
 
     # Extract the character information from the API response
-    st.write(response)
     character_info = response.choices[0].text.strip()
-    st.write(f"Character Info: {character_info}")
+    
     try:
         character = json.loads(character_info)
         # Display the character information to the user
@@ -54,4 +54,6 @@ if st.button("Create Character"):
         st.write(f"Name: {character['name']}")
         st.write(f"Race: {character['race']}")
     except json.JSONDecodeError as e:
-        st.error(f"Error generating character: {e}")
+        st.error(f"Error parsing character information: {e}")
+    except KeyError as e:
+        st.error(f"Error: Key {e} not found in character information.")
