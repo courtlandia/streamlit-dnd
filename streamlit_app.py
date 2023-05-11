@@ -33,17 +33,17 @@ description = st.text_area("Description", max_chars=2048)
 # Create a button to generate the character
 if st.button("Create Character"):
     # Generate the D&D character using OpenAI's GPT-3 API
-response = openai.Completion.create(
-    engine="text-davinci-002",
-    prompt=(f"A D&D player wants to create a new character. "
-            f"The character has the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
-            f"The player describes the character as: '{description}'. "
-            f"Please generate a detailed backstory, including the character's name, race, and sex."),
-    max_tokens=2048,
-    n=1,
-    stop=None,
-    temperature=0.5,
-)
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=(f"A D&D player wants to create a new character. "
+                f"The character has the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
+                f"The player describes the character as: '{description}'. "
+                f"Please generate a detailed backstory, including the character's name, race, and sex."),
+        max_tokens=2048,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
 
     # Extract the character information from the API response
     character_info = response.choices[0].text.strip()
