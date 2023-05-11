@@ -49,7 +49,7 @@ description_prompt = "Describe your character. What's their personality like? Wh
 description = st.text_area("Description", max_chars=2048)
 
 # Create a button to generate the character
-if st.button("Create Character"):
+if st.button("Create Backstory"):
     # Generate the D&D character using OpenAI's GPT-3 API
     response = openai.Completion.create(
         engine="text-davinci-002",
