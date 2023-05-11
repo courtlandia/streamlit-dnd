@@ -38,7 +38,7 @@ if st.button("Create Character"):
         prompt=(f"A D&D player wants to create a new character. "
                 f"The character has the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
                 f"The player describes the character as: '{description}'. "
-                f"Please generate a detailed backstory, including the character's name, race, and sex."),
+                f"Please generate a detailed backstory roughly 3 paragraphs in length, include the character's name, race, and sex. The back story should take into account the character's attributes. It should detail the character's origin, motivation, conflict they've overcome in the past, how their personality has developed over time, their relationships with a few significant people, quirks, traits, and if they harbor any secrets."),
         max_tokens=2048,
         n=1,
         stop=None,
