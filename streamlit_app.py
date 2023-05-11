@@ -43,18 +43,22 @@ if st.button("Create Character"):
             stop=None,
             temperature=0.5,
         )
+
+        # Debugging prints
         print(response)
+        print(response.choices[0].text.strip())
 
-        # Extract the character information from the API response
-        character_info = response.choices[0].text.strip()
-        if not character_info:
-            raise ValueError("Character information not found in OpenAI response.")
+        try:
+            # Extract the character information from the API response
+            character_info = response.choices[0].text.strip()
+            if not character_info:
+                raise ValueError("Character information not found in OpenAI response.")
 
-        character = json.loads(character_info)
+            character = json.loads(character_info)
 
-        # Display the character information to the user
-        st.subheader("Your Character:")
-        st.write(f"Name: {character['name']}")
-        st.write(f"Race: {character['race']}")
-    except Exception as e:
-        st.error(f"Error generating character: {e}")    
+            # Display the character information to the user
+            st.subheader("Your Character:")
+            st.write(f"Name: {character['name']}")
+            st.write(f"Race: {character['race']}")
+        except Exception as e:
+            st.error(f"Error generating character: {e}")    
