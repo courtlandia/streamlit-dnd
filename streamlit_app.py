@@ -31,27 +31,16 @@ remaining_points = 27 - point_buy_cost[strength] - point_buy_cost[dexterity] - p
 st.write("Remaining points:", remaining_points)
 
 # Create select box inputs for character details
-st.header("Character Details")
-race = st.selectbox("Race", ["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Elf", "Half-Orc", "Warforged", "Goblin", "Hobgoblin", "Orc", "Bugbear"])
-character_class = st.selectbox("Class", ["Artificer", "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"])
-sex = st.selectbox("Sex", ["Male", "Female", "Other"])
-campaign_setting = st.selectbox("Campaign Setting", ["Eberron", "Forgotten Realms", "Ravenloft", "Dark Sun", "Spelljammer"])
 background_options = ['Acolyte', 'Criminal', 'Guild Artisan', 'Hermit', 'Noble', 'Outlander', 'Sage', 'Soldier']
 alignment_options = ['Lawful Good', 'Neutral Good', 'Chaotic Good', 'Lawful Neutral', 'True Neutral', 'Chaotic Neutral', 'Lawful Evil', 'Neutral Evil', 'Chaotic Evil']
-personality_trait_options = ['I idolize a particular hero of my faith, and constantly refer to that person’s deeds and example.', 'I can find common ground between the fiercest enemies, empathizing with them and always working toward peace.', 'I see omens in every event and action. The gods try to speak to us, we just need to listen.', 'Nothing can shake my optimistic attitude.']
-ideal_options = ['Faith. I trust that my deity will guide my actions. I have faith that if I work hard, things will go well.', 'Tradition. The ancient traditions of worship and sacrifice must be preserved and upheld.', 'Charity. I always try to help those in need, no matter what the personal cost.']
-bond_options = ['I would die to recover an ancient artifact of my faith that was lost long ago.', 'I will someday get revenge on the corrupt temple hierarchy who branded me a heretic.', 'I owe my life to the priest who took me in when my parents died.']
-flaw_options = ['I judge others harshly, and myself even more severely.', 'I put too much trust in those who wield power within my temple’s hierarchy.', 'My piety sometimes leads me to blindly trust those that profess faith in my god.']
 
+st.header("Character Details")
+race = st.sidebar.selectbox("Race", ["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Elf", "Half-Orc", "Warforged", "Goblin", "Hobgoblin", "Orc", "Bugbear"])
+character_class = st.sidebar.selectbox("Class", ["Artificer", "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"])
+sex = st.sidebar.selectbox("Sex", ["Male", "Female", "Other"])
+campaign_setting = st.sidebar.selectbox("Campaign Setting", ["Eberron", "Forgotten Realms", "Ravenloft", "Dark Sun", "Spelljammer"])
 background = st.sidebar.selectbox('Select the character\'s background:', background_options)
 alignment = st.sidebar.selectbox('Select the character\'s alignment:', alignment_options)
-personality_trait_1 = st.sidebar.selectbox('Select the first personality trait:', personality_trait_options)
-personality_trait_2 = st.sidebar.selectbox('Select the second personality trait:', personality_trait_options)
-ideals = st.sidebar.selectbox('Select the character\'s ideals:', ideal_options)
-bonds = st.sidebar.selectbox('Select the character\'s bonds:', bond_options)
-flaw_1 = st.sidebar.selectbox('Select the first flaw:', flaw_options)
-flaw_2 = st.sidebar.selectbox('Select the second flaw:', flaw_options)
-
 
 # Create a text input for the character backstory
 st.header("Character Description")
