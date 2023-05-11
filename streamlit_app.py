@@ -15,6 +15,7 @@ temperature = st.sidebar.selectbox(
 # Create a title and subheader
 st.title("D&D Character Background Generator")
 st.subheader("Too lazy to write a backstory for your D&D character? This app is for you!")
+st.write("In the sidebar, enter your OpenAI API key, select how creative you want your backstory to be, fill in your character information and click 'Create character'. Then add any additional description of your character below, and click 'Create backstory'"
 
 # Create form inputs for character details n the sidebar
 background_options = ['Acolyte', 'Criminal', 'Guild Artisan', 'Hermit', 'Noble', 'Outlander', 'Sage', 'Soldier']
