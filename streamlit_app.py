@@ -43,10 +43,10 @@ if st.button("Create Character"):
         stop=None,
         temperature=0.5,
     )
-
+   
     # Extract the character information from the API response
     st.write(response)
-    character_info = response.choices[0].text
+    character_info = response.choices[0].text.strip()
     character = json.loads(character_info)
 
     # Display the character information to the user
