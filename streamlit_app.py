@@ -7,7 +7,7 @@ st.set_page_config(page_title="D&D Character Generator", layout="wide")
 openai.api_key = st.sidebar.text_input("Enter OpenAI API Key", type="password")
 # Allow users to select the temperature parameter
 temperature = st.sidebar.selectbox(
-    'Select the creativity level for the character backstory:',
+    'Select the creativity level for the character backstory (closer to 0 = predictable, closer to 1 = creative:',
     [0.2, 0.4, 0.6, 0.8, 1.0],
     index=2
 )
@@ -34,7 +34,7 @@ st.write("Remaining points:", remaining_points)
 background_options = ['Acolyte', 'Criminal', 'Guild Artisan', 'Hermit', 'Noble', 'Outlander', 'Sage', 'Soldier']
 alignment_options = ['Lawful Good', 'Neutral Good', 'Chaotic Good', 'Lawful Neutral', 'True Neutral', 'Chaotic Neutral', 'Lawful Evil', 'Neutral Evil', 'Chaotic Evil']
 
-st.header("Character Details")
+st.sidebar.markdown("## Character details")
 race = st.sidebar.selectbox("Race", ["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Elf", "Half-Orc", "Warforged", "Goblin", "Hobgoblin", "Orc", "Bugbear"])
 character_class = st.sidebar.selectbox("Class", ["Artificer", "Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Monk", "Paladin", "Ranger", "Rogue", "Sorcerer", "Warlock", "Wizard"])
 sex = st.sidebar.selectbox("Sex", ["Male", "Female", "Other"])
