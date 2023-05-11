@@ -1,7 +1,6 @@
 import streamlit as st
 import openai
 import json
-import requests
 
 st.set_page_config(page_title="D&D Character Generator", layout="wide")
 
@@ -46,13 +45,10 @@ if st.button("Create Character"):
 
     # Extract the character information from the API response
     st.write(response)
-    try:
-        character_info = response.choices[0].text.strip()
-        character = json.loads(character_info)
-    except json.decoder.JSONDecodeError:
-        st.write("Error generating character:", response.choices[0].text)
+    character_info = response.choices[0].text.strip()
+    character = json.loads(character_info)
 
     # Display the character information to the user
-    if 'character' in locals():
-        st.subheader("Your Character:")
-        st.write(f"Name: {character['name']}")
+    st.subheader("Your Character:")
+    st.write(f"Name: {character['name']}")
+    st.write(f"Race: {character['race']}")
