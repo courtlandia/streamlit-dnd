@@ -43,7 +43,7 @@ if st.button("Create Character"):
         engine="text-davinci-002",
         prompt=(f"A D&D player wants to create a new character in the {campaign_setting} setting. "
                 f"The character is a {sex} {race} {character_class} with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
-                f"The player described the character as follows: '{description}'. Based on this information, please generate a compelling backstory for this character that is 5 paragraphs long."),
+                f"The player described the character as follows: '{description}'. Based on this information, please generate a compelling backstory for this character that is 5 paragraphs long and does not include any murder."),
         max_tokens=2048,
         temperature=0.6,
     )
