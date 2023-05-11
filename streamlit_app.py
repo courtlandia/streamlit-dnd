@@ -1,6 +1,5 @@
 import streamlit as st
 import openai
-import json
 
 st.set_page_config(page_title="D&D Character Generator", layout="wide")
 
@@ -43,11 +42,9 @@ if st.button("Create Character"):
     response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=(f"A D&D player wants to create a new character in the {campaign_setting} setting. "
-                f"The character is a {sex} {race} {character_class} with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}"
+                f"The character is a {sex} {race} {character_class} with the following attributes: Strength {strength}, Dexterity {dexterity}, Constitution {constitution}, Intelligence {intelligence}, Wisdom {wisdom}, Charisma {charisma}. "
                 f"The player described the character as follows: '{description}'. Based on this information, please generate a compelling backstory for this character."),
-        max_tokens=2048,
-        n=1,
-        stop=None,
+        max_tokens=500,
         temperature=0.5,
     )
 
